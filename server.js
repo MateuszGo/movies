@@ -3,7 +3,7 @@ var dbConfig = require('./config/db');
 var app = express();
 const port = 3000;
 var mongoose = require('mongoose');
-mongoose.connect(dbConfig.url);
+mongoose.connect(dbConfig.url, {useMongoClient: true});
 var db = mongoose.connection;
 var Movie = require('./models/movie');
 
