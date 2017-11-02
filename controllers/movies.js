@@ -48,7 +48,7 @@ router.use((err, req, res, next) => {
 	res.status(err.status || 500);
 	if (err.status == 503)
 		err.message = 'Database maintenance';
-	res.json({message: (err.message || 'Unknown error')});
+	res.json({errorMessage: (err.message || 'Unknown error')});
 });
 
 

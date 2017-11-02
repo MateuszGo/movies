@@ -1,7 +1,7 @@
 var express = require('express');
 var dbConfig = require('./config/db');
 var app = express();
-const port = 3000;
+var port = process.env.PORT || 3000;
 var mongoose = require('mongoose');
 mongoose.connect(dbConfig.url, {useMongoClient: true});
 var db = mongoose.connection;
@@ -12,6 +12,13 @@ db.on('error', console.error.bind(console, 'MongoDB error'));
 var movies = require('./controllers/movies');
 
 app.use('/movies', movies);
+
+app.use((err, req, res, next) => {
+	if (err.status == 404)
+		res.status(404).json({"errorMessage" : "Resource does not exist"});
+	else
+		next(err);
+});
 
 app.listen(port, () => {
 	console.log('Listening on port ' + port);

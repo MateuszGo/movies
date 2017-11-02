@@ -1,6 +1,10 @@
 {
   "name": "movies",
   "version": "0.0.1",
+  "engines" : {
+    "node" : "6.11.2",
+    "npm" : "3.10.10"
+  },
   "description": "rest api for movies",
   "main": "server.js",
   "scripts": {
