@@ -5,38 +5,51 @@ var bodyParser = require('body-parser');
 
 router.get('/', (req, res) => {
 	Movie.find({}).sort([['rating', 'descending']]).exec((err, movies) => {
-		if (err)
-			res.status(503).json({errorType: 'database', message: err.message});
-		else
-			res.json(movies);
-	})
-})
+		if (err){
+			err.status = 503;
+			return next(err);
+		}else
+		res.json(movies);
+	});
+});
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', (req, res, next) => {
 	Movie.remove({_id: req.params.id}, function(err){
-		if (err)
-			if (err.name == 'CastError')
-				res.status(400).json({errorType: 'input data', message: 'Improper id'});
+		if (err){
+			if (err.name == 'CastError'){
+				err.status = 400;
+				err.message = 'Improper id';
+			}
 			else
-				res.status(503).json({errorType: 'database', message: err.message});
-		else
-			res.status(204).json({});
-	})
-})
+				err.status = 503;
+			return next(err);
+		} else
+		res.status(204).json({});
+	});
+});
 
-router.post('/', bodyParser.urlencoded({extended: true}), (req, res, next) => {
+router.post('/', [bodyParser.urlencoded({extended: true}), bodyParser.json()], (req, res, next) => {
 	var postBody = req.body;
 	new Movie({title : postBody.title, rating : postBody.rating, director : postBody.director, actors : postBody.actors}).save(function(err, savedMovie){
 		if (err){
 			if (err.name == 'ValidationError')
-				res.status(400).json({errorType: 'input data', message: err.message});
+				err.status = 400;
 			else 
-				res.status(503).json({errorType: 'database', message: err.message});
+				err.status = 503;
+
+			return next(err);
 		} else {
 			res.status(201).json(savedMovie);
 		}
 	});
-})
+});
+
+router.use((err, req, res, next) => {
+	res.status(err.status || 500);
+	if (err.status == 503)
+		err.message = 'Database maintenance';
+	res.json({message: (err.message || 'Unknown error')});
+});
 
 
 module.exports = router;

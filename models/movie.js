@@ -10,12 +10,13 @@ var movieSchema = new Schema({
 				return /^[A-Za-z]{3,50}$/.test(v);
 			},
 			message: "Title should be between 3-50 characters long and include only letters"
-		}}, //3-50 only letters
+		}
+	},
 	rating : {type: Number, required: true},
 	director : {type: String, required: true},
 	actors : {type: [String], required: true},
 	createdAt : {type: Date, default: Date.now}
-})
+});
 
 movieSchema.set('toJSON', {
 	transform: function(doc, ret, options){
