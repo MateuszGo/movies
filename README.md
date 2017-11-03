@@ -1,6 +1,8 @@
 # movies
-API written using node.js and mongoDB, tested with Postman
+API written using node.js, express.js and mongoDB, tested with Postman.
 Deployed to Heroku on address: https://mgmovies.herokuapp.com/
+Database initialy populated with 3 movies.
+
 Endpoints:
 
 	Show movies list (sorted desc. by rating)
