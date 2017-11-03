@@ -13,11 +13,8 @@ var movies = require('./controllers/movies');
 
 app.use('/movies', movies);
 
-app.use((err, req, res, next) => {
-	if (err.status == 404)
-		res.status(404).json({"errorMessage" : "Resource does not exist"});
-	else
-		next(err);
+app.all('*', (req, res) => {
+	res.status(404).json({"errorMessage" : "Resource does not exist"});
 });
 
 app.listen(port, () => {
