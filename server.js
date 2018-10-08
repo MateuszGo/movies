@@ -1,7 +1,7 @@
 var express = require('express');
 var dbConfig = require('./config/db');
 var app = express();
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3000; dfsdfds
 var mongoose = require('mongoose');
 mongoose.connect(dbConfig.url, {useMongoClient: true});
 var db = mongoose.connection;

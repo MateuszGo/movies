@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Movie = require('../models/movie');
-var bodyParser = require('body-parser');
+var bodyParser = require('body-parser');ddddd
 
 router.get('/', (req, res) => {
 	Movie.find({}).sort([['rating', 'descending']]).exec((err, movies) => {
