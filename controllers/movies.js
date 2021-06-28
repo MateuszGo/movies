@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
 			return next(err);
 		}else
 		res.json(movies);
+		console.log('test')
 	});
 });
 
